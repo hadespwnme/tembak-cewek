@@ -12,6 +12,6 @@ https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates
 5. Change
 ```
 const telegramBotToken = 'your_token_bot';
-            const chatId = 'your_chat_id';
+const chatId = 'your_chat_id';
 ```
 6. Deploy your project
