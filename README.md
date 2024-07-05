@@ -13,5 +13,6 @@ https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates
 ```
 const telegramBotToken = 'your_token_bot';
 const chatId = 'your_chat_id';
+const whatsappUrl = `https://wa.me/your_wa_number?text=${message}`;
 ```
 6. Deploy your project
