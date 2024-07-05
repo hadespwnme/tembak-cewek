@@ -6,7 +6,8 @@ Took for tracking location and get pictures,
 2. Search @Botfather
 3. Create a chatbot for get token api telegram
 4. For find your chat id you can visit
-```sh   https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates
+```
+https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates
 ```
 5. Change
 ```
